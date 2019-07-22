@@ -1,2 +1,2 @@
 # calc-app
-Simple calc SPA
+Simple calc SPA.
