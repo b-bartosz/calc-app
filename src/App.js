@@ -6,15 +6,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
+      input: "0",
       allInput: "",
+      operationKeyPressed: "yes"
     };
   }
   
   // Set a value of input
   addToInput = val => {
     if(this.state.input.length <= 11){
+      if(this.state.input == "0") {
+        if(val != ".") this.state.input = "";
+      }
       this.setState({ input: this.state.input + val });
+      this.setState({ operationKeyPressed: "no" });
     }
   };
 
@@ -23,15 +28,26 @@ class App extends React.Component {
     this.setState({ input: this.state.input * (-1) });
   };
 
+  // Add operations to allInput
   mathOperation = (val) => {
-    this.setState({ allInput: this.state.allInput + this.state.input + val});
-    this.setState({ input: "" });
+    if (this.state.operationKeyPressed == "no"){
+      this.setState({ operationKeyPressed: "yes" });
+      this.setState({ allInput: this.state.allInput + this.state.input + val});
+      this.setState({ input: "0" });
+    }
   };
 
   // Calculate the result
   calcResult = () => {
-    this.setState({ input: math.round(math.evaluate(this.state.allInput + this.state.input), 10) });
-    this.setState({ allInput: "" });
+    if (this.state.operationKeyPressed == "no"){
+      if((this.state.allInput + this.state.input).includes("/0")) {
+        alert("Nie dziel przez 0!")
+        this.setState({ input: "0", allInput: "" });
+      } else {
+      this.setState({ input: math.round(math.evaluate(this.state.allInput + this.state.input), 10) });
+      this.setState({ allInput: "" });
+      }
+    }
   };
 
   // Display input history
@@ -88,7 +104,7 @@ class App extends React.Component {
                 </g>
 
                 {/* input fields */}
-                <rect onClick={() => this.setState({input: "", allInput: ""})} className="f1" y="658" width="310" height="310"/>
+                <rect onClick={() => this.setState({input: "0", allInput: ""})} className="f1" y="658" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("1")} className="f1" y="968" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("4")} className="f1" y="1278" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("7")} className="f1" y="1588" width="310" height="310"/>
