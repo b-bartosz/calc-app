@@ -16,14 +16,15 @@
   justify-content: center;
 }
 
-svg rect.f1:hover{
-  fill:rgb(83, 83, 83);
-  opacity: 0.2;
-}
-
-svg rect.f2:hover{
-  fill:rgb(17, 0, 173);
-  opacity: 0.3;
+svg {
+    rect.f1:hover {
+        fill:rgb(83, 83, 83);
+        opacity: 0.2;
+    }
+    rect.f2:hover {
+        fill:rgb(17, 0, 173);
+        opacity: 0.3;
+    }
 }
 
 @media screen and (min-width:546px) {
