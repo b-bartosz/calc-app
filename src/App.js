@@ -64,15 +64,39 @@ class App extends React.Component {
 
   // Fit text in input field
   componentDidUpdate() {
-      let test = document.getElementById("inputField");
-      test.style.fontSize = "160px";
-      let width = test.getBoundingClientRect().width;
+    let test = document.getElementById("inputField");
+    test.style.fontSize = "160px";
+    let width = test.getBoundingClientRect().width;
 
-      while(width > 250){
-        test.style.fontSize = (parseInt(test.style.fontSize) - 1) + "px";
-        width = test.getBoundingClientRect().width;
-      }
+    while(width > 250){
+      test.style.fontSize = (parseInt(test.style.fontSize) - 1) + "px";
+      width = test.getBoundingClientRect().width;
+    }
   }
+
+  // Input from keyboard
+  handleKeyPress = (event) => {
+    if(("1234567890.").includes(event.key)){
+      this.addToInput(event.key);
+    } 
+    if (("/*-+").includes(event.key)) {
+      this.mathOperation(event.key);
+    }
+    if (event.keyCode === 13) {
+      this.calcResult();
+    }
+    if (event.keyCode === 8) {
+      this.setState({input: this.state.input.slice(0, -1)})
+    }
+  };
+
+  componentDidMount = () => {
+    document.addEventListener("keydown", this.handleKeyPress, false);
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("keydown", this.handleKeyPress, false);
+  };
 
   render() {
     return (    
