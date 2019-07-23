@@ -14,8 +14,8 @@ class App extends React.Component {
   
   // Set a value of input
   addToInput = val => {
-    if(this.state.input.length <= 15){
-      if(this.state.input === "0" && val !== ".") {
+    if (this.state.input.length <= 15) {
+      if (this.state.input === "0" && val !== ".") {
         this.setState({ input: "" }, () => {
           this.setState({ input: this.state.input + val });
         });     
@@ -33,7 +33,7 @@ class App extends React.Component {
 
   // Add operations to allInput
   mathOperation = (val) => {
-    if (this.state.operationKeyPressed === "no"){
+    if (this.state.operationKeyPressed === "no") {
       this.setState({ operationKeyPressed: "yes" });
       this.setState({ allInput: this.state.allInput + this.state.input + val});
       this.setState({ input: "0" });
@@ -42,12 +42,12 @@ class App extends React.Component {
 
   // Calculate the result
   calcResult = () => {
-    if (this.state.operationKeyPressed === "no"){
-      if((this.state.allInput + this.state.input).includes("/0")) {
+    if (this.state.operationKeyPressed === "no") {
+      if ((this.state.allInput + this.state.input).includes("/0")) {
         alert("Nie dziel przez 0!")
         this.setState({ input: "0", allInput: "" });
       } else {
-      this.setState({ input: math.round(math.evaluate(this.state.allInput + this.state.input), 10) });
+      this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
       this.setState({ allInput: "" });
       }
     }
@@ -55,7 +55,7 @@ class App extends React.Component {
 
   // Display input history
   displayAllInput = () => {
-    if(this.state.allInput.length > 23){
+    if (this.state.allInput.length > 23) {
       return "..." + this.state.allInput.slice(-23);
     } else {
       return this.state.allInput;
@@ -68,7 +68,7 @@ class App extends React.Component {
     test.style.fontSize = "160px";
     let width = test.getBoundingClientRect().width;
 
-    while(width > 250){
+    while (width > 250) {
       test.style.fontSize = (parseInt(test.style.fontSize) - 1) + "px";
       width = test.getBoundingClientRect().width;
     }
@@ -76,7 +76,7 @@ class App extends React.Component {
 
   // Input from keyboard
   handleKeyPress = (event) => {
-    if(("1234567890.").includes(event.key)){
+    if (("1234567890.").includes(event.key)) {
       this.addToInput(event.key);
     } 
     if (("/*-+").includes(event.key)) {
@@ -111,8 +111,8 @@ class App extends React.Component {
                 <rect className="cls-2" x="931" y="658" width="311" height="1550"/>
                 <rect className="cls-3" y="348" width="1242" height="310"/>
                 <rect id="Rectangle_3_copy" data-name="Rectangle 3 copy" className="cls-4" width="1242" height="348"/>
-                <text id="inputField" textAnchor="end" className="cls-5" x="1142.826" y="567.032">{this.state.input}</text>
-                <text id="allInputField" textAnchor="end" className="cls-6" x="1132" y="211.031">{this.displayAllInput()}</text>
+                <text id="inputField" textAnchor="end" className="cls-5 disable-select" x="1142.826" y="567.032">{this.state.input}</text>
+                <text id="allInputField" textAnchor="end" className="cls-6 disable-select" x="1132" y="211.031">{this.displayAllInput()}</text>
                 <g className="cls-7">
                   <text id="_1" data-name="1" className="cls-8" x="133.116" y="1159.703">1</text>
                   <text id="C" className="cls-8" x="114.116" y="849.702">C</text>
@@ -149,17 +149,17 @@ class App extends React.Component {
                 <rect onClick={() => this.addToInput("7")} className="f1" y="1588" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("0")} className="f1" y="1898" width="310" height="310"/>
             
-                <rect onClick={() => this.changeSign()}className="f1" y="658" x="310" width="311" height="310"/>
+                <rect onClick={() => this.changeSign()} className="f1" y="658" x="310" width="311" height="310"/>
                 <rect onClick={() => this.addToInput("2")} className="f1" y="968" x="310" width="311" height="310"/>
                 <rect onClick={() => this.addToInput("5")} className="f1" y="1278" x="310" width="311" height="310"/>
                 <rect onClick={() => this.addToInput("8")} className="f1" y="1588" x="310" width="311" height="310"/>
                 <rect onClick={() => this.addToInput(".")} className="f1" y="1898" x="310" width="311" height="310"/>
             
-                <rect onClick={() => this.mathOperation("%")}className="f1" y="658" x="621" width="310" height="310"/>
+                <rect onClick={() => this.mathOperation("%")} className="f1" y="658" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("3")} className="f1" y="968" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("6")} className="f1" y="1278" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("9")} className="f1" y="1588" x="621" width="310" height="310"/>
-                <rect onClick={() => this.setState({input: this.state.input.slice(0, -1)})}className="f1" y="1898" x="621" width="310" height="310"/>
+                <rect onClick={() => this.setState({input: this.state.input.slice(0, -1)})} className="f1" y="1898" x="621" width="310" height="310"/>
             
                 <rect onClick={() => this.mathOperation("/")} className="f2" y="658" x="931" width="311" height="310"/>
                 <rect onClick={() => this.mathOperation("*")} className="f2" y="968" x="931" width="311" height="310"/>
