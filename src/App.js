@@ -6,22 +6,42 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: ""
+      input: "",
+      allInput: "",
     };
   }
   
   // Set a value of input
   addToInput = val => {
-    this.setState({ input: this.state.input + val });
+    if(this.state.input.length <= 11){
+      this.setState({ input: this.state.input + val });
+    }
   };
+
   // Change a sign of input's value
   changeSign = () => {
     this.setState({ input: this.state.input * (-1) });
   };
-  // Calculate the result
-  handleEqual = () => {
-    this.setState({ input: math.round(math.evaluate(this.state.input), 3) });
+
+  mathOperation = (val) => {
+    this.setState({ allInput: this.state.allInput + this.state.input + val});
+    this.setState({ input: "" });
   };
+
+  // Calculate the result
+  calcResult = () => {
+    this.setState({ input: math.round(math.evaluate(this.state.allInput + this.state.input), 10) });
+    this.setState({ allInput: "" });
+  };
+
+  // Display input history
+  displayAllInput = () => {
+    if(this.state.allInput.length > 23){
+      return "..." + this.state.allInput.slice(-23);
+    } else {
+      return this.state.allInput;
+    }
+  }
 
   render() {
     return (    
@@ -37,7 +57,7 @@ class App extends React.Component {
                 <rect className="cls-3" y="348" width="1242" height="310"/>
                 <rect id="Rectangle_3_copy" data-name="Rectangle 3 copy" className="cls-4" width="1242" height="348"/>
                 <text id="inputField" textAnchor="end" className="cls-5" x="1142.826" y="567.032">{this.state.input}</text>
-                <text id="allInputField" textAnchor="end" className="cls-6" x="1132" y="211.031"></text>
+                <text id="allInputField" textAnchor="end" className="cls-6" x="1132" y="211.031">{this.displayAllInput()}</text>
                 <g className="cls-7">
                   <text id="_1" data-name="1" className="cls-8" x="133.116" y="1159.703">1</text>
                   <text id="C" className="cls-8" x="114.116" y="849.702">C</text>
@@ -68,7 +88,7 @@ class App extends React.Component {
                 </g>
 
                 {/* input fields */}
-                <rect onClick={() => this.setState({input: ""})} className="f1" y="658" width="310" height="310"/>
+                <rect onClick={() => this.setState({input: "", allInput: ""})} className="f1" y="658" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("1")} className="f1" y="968" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("4")} className="f1" y="1278" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("7")} className="f1" y="1588" width="310" height="310"/>
@@ -80,17 +100,17 @@ class App extends React.Component {
                 <rect onClick={() => this.addToInput("8")} className="f1" y="1588" x="310" width="311" height="310"/>
                 <rect onClick={() => this.addToInput(".")} className="f1" y="1898" x="310" width="311" height="310"/>
             
-                <rect onClick={() => this.addToInput("%")}className="f1" y="658" x="621" width="310" height="310"/>
+                <rect onClick={() => this.mathOperation("%")}className="f1" y="658" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("3")} className="f1" y="968" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("6")} className="f1" y="1278" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("9")} className="f1" y="1588" x="621" width="310" height="310"/>
                 <rect onClick={() => this.setState({input: this.state.input.slice(0, -1)})}className="f1" y="1898" x="621" width="310" height="310"/>
             
-                <rect onClick={() => this.addToInput("/")} className="f2" y="658" x="931" width="311" height="310"/>
-                <rect onClick={() => this.addToInput("*")} className="f2" y="968" x="931" width="311" height="310"/>
-                <rect onClick={() => this.addToInput("-")} className="f2" y="1278" x="931" width="311" height="310"/>
-                <rect onClick={() => this.addToInput("+")} className="f2" y="1588" x="931" width="311" height="310"/>
-                <rect onClick={() => this.handleEqual()} className="f2" y="1898" x="931" width="311" height="310"/>
+                <rect onClick={() => this.mathOperation("/")} className="f2" y="658" x="931" width="311" height="310"/>
+                <rect onClick={() => this.mathOperation("*")} className="f2" y="968" x="931" width="311" height="310"/>
+                <rect onClick={() => this.mathOperation("-")} className="f2" y="1278" x="931" width="311" height="310"/>
+                <rect onClick={() => this.mathOperation("+")} className="f2" y="1588" x="931" width="311" height="310"/>
+                <rect onClick={() => this.calcResult()} className="f2" y="1898" x="931" width="311" height="310"/>
               </g>
             </g>
           </svg>
