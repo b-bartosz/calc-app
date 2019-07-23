@@ -14,7 +14,7 @@ class App extends React.Component {
   
   // Set a value of input
   addToInput = val => {
-    // if(this.state.input.length <= 11){
+    if(this.state.input.length <= 15){
       if(this.state.input === "0" && val !== ".") {
         this.setState({ input: "" }, () => {
           this.setState({ input: this.state.input + val });
@@ -23,7 +23,7 @@ class App extends React.Component {
       this.setState({ input: this.state.input + val });
       }
       this.setState({ operationKeyPressed: "no" });
-    //}
+    }
   };
 
   // Change a sign of input's value
@@ -53,16 +53,6 @@ class App extends React.Component {
     }
   };
 
-  // Display input
-  // displayInput = () => {
-  //   var test = document.querySelector('#inputField');
-  //   //test.style.fontSize = "50px";
-
-  //   if(parseInt(test.style.width, 10) > 250){
-  //     test.style.fontSize = "50px"
-  //   }
-  // }
-
   // Display input history
   displayAllInput = () => {
     if(this.state.allInput.length > 23){
@@ -73,18 +63,15 @@ class App extends React.Component {
   }
 
   // Fit text in input field
-  componentDidUpdate(prevState) {
-    if (prevState.input !== this.state.input) {
+  componentDidUpdate() {
       let test = document.getElementById("inputField");
-      let width = test.getBoundingClientRect().width;
-
       test.style.fontSize = "160px";
+      let width = test.getBoundingClientRect().width;
 
       while(width > 250){
         test.style.fontSize = (parseInt(test.style.fontSize) - 1) + "px";
         width = test.getBoundingClientRect().width;
       }
-    }
   }
 
   render() {
