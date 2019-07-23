@@ -2,12 +2,7 @@
   text-align: center;
 }
 
-.cls-8, .cls-10{
-  -moz-user-select: none;
-  user-select: none;
-}
-
-.disable-select {
+.disable-select, .cls-8, .cls-10 {
   -webkit-user-select: none;  
   -moz-user-select: none;    
   -ms-user-select: none;      
@@ -33,7 +28,7 @@ svg rect.f2:hover{
 
 @media screen and (min-width:546px) {
   body {
-    background: url(bg.jpg) no-repeat center center fixed;
+    background: url(../Images/bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

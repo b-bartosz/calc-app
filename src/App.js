@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css';
+import './Styles/App.css';
 import * as math from "mathjs";
 
 class App extends React.Component {
@@ -100,7 +100,6 @@ class App extends React.Component {
 
   render() {
     return (    
-      
       <div className="Calc" onKeyPress={this.handleKeyPress}>
         <div className="Calc-header">
           {/* Drawing calc UI */}
