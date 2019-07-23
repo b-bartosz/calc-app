@@ -1,6 +1,7 @@
 import React from "react";
-import './Styles/App.css';
+import './Styles/App.scss';
 import * as math from "mathjs";
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class App extends React.Component {
     this.state = {
       input: "0",
       allInput: "",
-      operationKeyPressed: "yes"
+      operationKeyPressed: "yes",
+      calculateKeyPressed: "no"
     };
   }
   
@@ -16,11 +18,12 @@ class App extends React.Component {
   addToInput = val => {
     if (this.state.input.length <= 15) {
       if (this.state.input === "0" && val !== ".") {
-        this.setState({ input: "" }, () => {
-          this.setState({ input: this.state.input + val });
-        });     
-      } else {      
-      this.setState({ input: this.state.input + val });
+        this.setState({ input: val });   
+      } else if (this.state.calculateKeyPressed == "yes"){      
+        this.setState({ input: val });
+        this.setState({ calculateKeyPressed: "no" });
+      } else {
+        this.setState({ input: this.state.input + val });
       }
       this.setState({ operationKeyPressed: "no" });
     }
@@ -50,6 +53,7 @@ class App extends React.Component {
       this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
       this.setState({ allInput: "" });
       }
+      this.setState({ calculateKeyPressed: "yes" });
     }
   };
 
@@ -124,7 +128,7 @@ class App extends React.Component {
                   <text id="_2" data-name="2" className="cls-8" x="436.116" y="1159.703">2</text>
                   <text id="_5" data-name="5" className="cls-8" x="435.116" y="1468.704">5</text>
                   <text id="_8" data-name="8" className="cls-8" x="437.116" y="1779.703">8</text>
-                  <text id="_" data-name="," className="cls-8" x="457.116" y="2090.702">,</text>
+                  <text id="_" data-name="." className="cls-8" x="457.116" y="2090.702">.</text>
                 </g>
                 <g className="cls-7">
                   <text id="_2-2" data-name="%" className="cls-8" x="732.291" y="849.89">%</text>
@@ -172,6 +176,12 @@ class App extends React.Component {
       </div>
     );
   }
+}
+
+App.propTypes = {
+  input: PropTypes.string,
+  allInput: PropTypes.string,
+  operationKeyPressed: PropTypes.string
 }
 
 export default App;
