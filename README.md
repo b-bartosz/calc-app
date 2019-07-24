@@ -1,2 +1,4 @@
 # calc-app
-Simple calc SPA.
+Simple calc in React - SPA.
+
+Supports mouse and keyboard input.
