@@ -34,7 +34,7 @@ class App extends React.Component {
   // Delete last sign from input
   delInput = () => {
     this.setState({input: this.state.input.slice(0, -1)}, () => {
-      if (this.state.input === "") {
+      if (this.state.input === "" || this.state.input === "-") {
         this.setState({input: "0"});
       }
     });
@@ -42,7 +42,7 @@ class App extends React.Component {
 
   // Change a sign of input's value
   changeSign = () => {
-    this.setState({ input: this.state.input * (-1) });
+    this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
   };
 
   // Add operations to allInput
