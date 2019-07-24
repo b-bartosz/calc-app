@@ -20,7 +20,7 @@ class App extends React.Component {
     if (this.state.input.length <= 15) {
       if (this.state.input === "0" && val !== ".") {
         this.setState({ input: val });   
-      } else if (this.state.calculateKeyPressed === "yes"){      
+      } else if (this.state.calculateKeyPressed === "yes") {      
         this.setState({ input: val });
         this.setState({ calculateKeyPressed: "no" });
       } else {
@@ -29,6 +29,15 @@ class App extends React.Component {
       this.setState({ easterMsgCount: 0 });
       this.setState({ operationKeyPressed: "no" });
     }
+  };
+
+  // Delete last sign from input
+  delInput = () => {
+    this.setState({input: this.state.input.slice(0, -1)}, () => {
+      if (this.state.input === "") {
+        this.setState({input: "0"});
+      }
+    });
   };
 
   // Change a sign of input's value
@@ -99,7 +108,7 @@ class App extends React.Component {
       this.calcResult();
     }
     if (event.keyCode === 8) {
-      this.setState({input: this.state.input.slice(0, -1)})
+      this.delInput();
     }
   };
 
@@ -171,7 +180,7 @@ class App extends React.Component {
                 <rect onClick={() => this.addToInput("3")} className="f1" y="968" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("6")} className="f1" y="1278" x="621" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("9")} className="f1" y="1588" x="621" width="310" height="310"/>
-                <rect onClick={() => this.setState({input: this.state.input.slice(0, -1)})} className="f1" y="1898" x="621" width="310" height="310"/>
+                <rect onClick={() => this.delInput()} className="f1" y="1898" x="621" width="310" height="310"/>
             
                 <rect onClick={() => this.mathOperation("/")} className="f2" y="658" x="931" width="311" height="310"/>
                 <rect onClick={() => this.mathOperation("*")} className="f2" y="968" x="931" width="311" height="310"/>
