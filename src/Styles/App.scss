@@ -17,14 +17,14 @@
 }
 
 svg {
-    rect.f1:hover {
-        fill:rgb(83, 83, 83);
-        opacity: 0.2;
-    }
-    rect.f2:hover {
-        fill:rgb(17, 0, 173);
-        opacity: 0.3;
-    }
+  rect.f1:hover, rect.f1:active {
+    fill:rgb(83, 83, 83);
+    opacity: 0.2;
+  }
+  rect.f2:hover, rect.f2:active {
+      fill:rgb(17, 0, 173);
+      opacity: 0.3;
+  }
 }
 
 @media screen and (min-width:546px) {

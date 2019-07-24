@@ -28,7 +28,7 @@ class App extends React.Component {
     } else {
       if (this.state.input.length <= 15) {
         if ((this.state.input).includes(".") && val === "."){
-          alert("Only one dot allowed.");
+          alert("Only one comma allowed.");
         } else {
           if (this.state.input === "0" && val !== ".") {
             this.setState({ input: val });   
@@ -47,38 +47,43 @@ class App extends React.Component {
 
   // Delete last sign from input
   delInput = () => {
-    this.setState({input: this.state.input.slice(0, -1)}, () => {
-      if (this.state.input === "" || this.state.input === "-" || this.state.input === "-0.") {
-        this.setState({input: "0"});
-      }
-    });
+    if (this.state.input !== "Infinity") {
+      this.setState({input: this.state.input.slice(0, -1)}, () => {
+        if (this.state.input === "" || this.state.input === "-" || this.state.input === "-0.") {
+          this.setState({input: "0"});
+        }
+      });
+    }
   };
 
   // Change a sign of input's value
   changeSign = () => {
-    this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+    if (this.state.input !== "Infinity") this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
   };
 
   // Add operations to allInput
   mathOperation = (val) => {
-    if (this.state.operationKeyPressed === "no") {
-      if ((this.state.input).includes("e")){
-        alert("Sorry, number too big :(");
-      } else {
-        this.setState({ operationKeyPressed: "yes" });
-        this.setState({ calculateKeyPressed: "no" });
-        this.setState({ easterMsgCount: 0 });
-        if (this.state.percentageKeyPressed === "no") {
-          this.setState({ allInput: this.state.allInput + this.state.input + val});
+    if (this.state.input !== "Infinity"){
+      if (this.state.operationKeyPressed === "no") {
+        if ((this.state.input).includes("e")){
+          alert("Sorry, number too big :(");
         } else {
-          this.setState({ allInput: this.state.allInput + val});
-          this.setState({ percentageKeyPressed: "no" });
+          this.setState({ operationKeyPressed: "yes" });
+          this.setState({ calculateKeyPressed: "no" });
+          this.setState({ easterMsgCount: 0 });
+          if (this.state.percentageKeyPressed === "no") {
+            this.setState({ allInput: this.state.allInput + this.state.input + val});
+          } else {
+            this.setState({ allInput: this.state.allInput + val});
+            this.setState({ percentageKeyPressed: "no" });
+          }
+          this.setState({ input: "0" });
         }
-        this.setState({ input: "0" });
       }
     }
   };
 
+  // Calculate percentage
   calcPercentage = () => {
     if (this.state.percentageKeyPressed === "no") {
       if (this.state.allInput === "") {
@@ -89,7 +94,6 @@ class App extends React.Component {
         this.setState({ input: "0" });
         this.setState({ percentageKeyPressed: "yes" });
         this.setState({ operationKeyPressed: "no" });
-        console.log("test");
       }
     }
   }
@@ -102,18 +106,13 @@ class App extends React.Component {
       this.setState({ easterMsgCount: 0 });
     } else {
       if (this.state.operationKeyPressed === "no") {
-        if ((this.state.allInput + this.state.input).includes("/0")) {
-          alert("Nie dziel przez 0!")
-          this.setState({ input: "0", allInput: "" });
+        if (this.state.percentageKeyPressed === "no") {
+          this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
         } else {
-          if (this.state.percentageKeyPressed === "no") {
-            this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
-          } else {
-            this.setState({ input: (math.round(math.evaluate(this.state.allInput), 10)).toString() });
-            this.setState({ percentageKeyPressed: "no" });
-          }
-          this.setState({ allInput: "" });
+          this.setState({ input: (math.round(math.evaluate(this.state.allInput), 10)).toString() });
+          this.setState({ percentageKeyPressed: "no" });
         }
+        this.setState({ allInput: "" });
         this.setState({ calculateKeyPressed: "yes" });
         this.setState({ percentageKeyPressed: "no" });
       }
