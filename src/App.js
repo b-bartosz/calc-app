@@ -10,7 +10,8 @@ class App extends React.Component {
       input: "0",
       allInput: "",
       operationKeyPressed: "yes",
-      calculateKeyPressed: "no"
+      calculateKeyPressed: "no",
+      easterMsgCount: 0
     };
   }
   
@@ -19,12 +20,13 @@ class App extends React.Component {
     if (this.state.input.length <= 15) {
       if (this.state.input === "0" && val !== ".") {
         this.setState({ input: val });   
-      } else if (this.state.calculateKeyPressed == "yes"){      
+      } else if (this.state.calculateKeyPressed === "yes"){      
         this.setState({ input: val });
         this.setState({ calculateKeyPressed: "no" });
       } else {
         this.setState({ input: this.state.input + val });
       }
+      this.setState({ easterMsgCount: 0 });
       this.setState({ operationKeyPressed: "no" });
     }
   };
@@ -38,6 +40,7 @@ class App extends React.Component {
   mathOperation = (val) => {
     if (this.state.operationKeyPressed === "no") {
       this.setState({ operationKeyPressed: "yes" });
+      this.setState({ easterMsgCount: 0 });
       this.setState({ allInput: this.state.allInput + this.state.input + val});
       this.setState({ input: "0" });
     }
@@ -45,15 +48,21 @@ class App extends React.Component {
 
   // Calculate the result
   calcResult = () => {
-    if (this.state.operationKeyPressed === "no") {
-      if ((this.state.allInput + this.state.input).includes("/0")) {
-        alert("Nie dziel przez 0!")
-        this.setState({ input: "0", allInput: "" });
-      } else {
-      this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
-      this.setState({ allInput: "" });
+    this.setState({ easterMsgCount: this.state.easterMsgCount + 1 });
+    if (this.state.easterMsgCount === 4) {
+      alert(String.fromCharCode(67,114,101,97,116,101,100,32,98,121,32,66,97,114,116,111,115,122,32,66,105,97,322,97,99,104));
+      this.setState({ easterMsgCount: 0 });
+    } else {
+      if (this.state.operationKeyPressed === "no") {
+        if ((this.state.allInput + this.state.input).includes("/0")) {
+          alert("Nie dziel przez 0!")
+          this.setState({ input: "0", allInput: "" });
+        } else {
+        this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
+        this.setState({ allInput: "" });
+        }
+        this.setState({ calculateKeyPressed: "yes" });
       }
-      this.setState({ calculateKeyPressed: "yes" });
     }
   };
 
@@ -66,7 +75,7 @@ class App extends React.Component {
     }
   }
 
-  // Fit text in input field
+  // Fit text inside input field
   componentDidUpdate() {
     let test = document.getElementById("inputField");
     test.style.fontSize = "160px";
@@ -181,7 +190,8 @@ class App extends React.Component {
 App.propTypes = {
   input: PropTypes.string,
   allInput: PropTypes.string,
-  operationKeyPressed: PropTypes.string
+  operationKeyPressed: PropTypes.string,
+  easterMsgCount: PropTypes.number
 }
 
 export default App;
