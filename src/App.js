@@ -56,6 +56,18 @@ class App extends React.Component {
     }
   };
 
+  // Clear all inputs
+  clearAll = () => {
+    this.setState({
+      input: "0",
+      allInput: "",
+      operationKeyPressed: "yes",
+      calculateKeyPressed: "no",
+      percentageKeyPressed: "no",
+      easterMsgCount: 0
+    });
+  };
+
   // Change a sign of input's value
   changeSign = () => {
     if (this.state.input !== "Infinity") this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
@@ -101,7 +113,7 @@ class App extends React.Component {
   // Calculate the result
   calcResult = () => {
     this.setState({ easterMsgCount: this.state.easterMsgCount + 1 });
-    if (this.state.easterMsgCount === 4) {
+    if (this.state.easterMsgCount === 9) {
       alert(String.fromCharCode(67,114,101,97,116,101,100,32,98,121,32,66,97,114,116,111,115,122,32,66,105,97,322,97,99,104));
       this.setState({ easterMsgCount: 0 });
     } else {
@@ -144,7 +156,7 @@ class App extends React.Component {
   }
 
   // Fit text inside input field
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     let test = document.getElementById("inputField");
     test.style.fontSize = "160px";
     let width = test.getBoundingClientRect().width;
@@ -157,8 +169,9 @@ class App extends React.Component {
 
   // Input from keyboard
   handleKeyPress = (event) => {
-    if (("1234567890.").includes(event.key)) {
-      this.addToInput(event.key);
+    if (("1234567890,").includes(event.key)) {
+      this.addToInput((event.key).replace(",", "."));
+      event.stopPropagation();
     } 
     if (("/*-+").includes(event.key)) {
       this.mathOperation(event.key);
@@ -166,8 +179,14 @@ class App extends React.Component {
     if (event.keyCode === 13) {
       this.calcResult();
     }
-    if (event.keyCode === 8) {
+    if (event.keyCode === 46) {
       this.delInput();
+    }
+    if (event.keyCode === 67) {
+      this.clearAll();
+    }
+    if (event.keyCode === 83) {
+      this.changeSign();
     }
   };
 
@@ -223,7 +242,7 @@ class App extends React.Component {
                 </g>
 
                 {/* input fields */}
-                <rect onClick={() => this.setState({input: "0", allInput: ""})} className="f1" y="658" width="310" height="310"/>
+                <rect onClick={() => this.clearAll()} className="f1" y="658" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("1")} className="f1" y="968" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("4")} className="f1" y="1278" width="310" height="310"/>
                 <rect onClick={() => this.addToInput("7")} className="f1" y="1588" width="310" height="310"/>
