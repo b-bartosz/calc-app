@@ -11,7 +11,7 @@ class App extends React.Component {
     this.state = {
       input: "0",
       allInput: "",
-      operationKeyPressed: "yes",
+      operationKeyPressed: "no",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
       easterMsgCounter: 0
@@ -20,34 +20,36 @@ class App extends React.Component {
   
   // Set a value of input
   addToInput = val => {
-    if (this.state.operationKeyPressed === "yes" || this.state.calculateKeyPressed === "yes") {
-      if (val === ".") {
-        if (this.state.input === "-") {
-          this.setState({ input: "-0." });
-        } else {
-          this.setState({ input: "0." });
-        }
-      } else if (this.state.input === "-") {
-        this.setState({ input: this.state.input + val });   
-      } else {
-        this.setState({ input: val });   
-      }
-      this.setState({ calculateKeyPressed: "no" });
-      this.setState({ operationKeyPressed: "no" });
-    } else {
-      if (this.state.input.length < 15) {
-        if ((this.state.input).includes(".") && val === "."){
-          alert("Only one comma allowed.");
-        } else {
-          if (this.state.input === "0" && val !== ".") {
-            this.setState({ input: val });   
-          } else if (this.state.input === "-" && val === ".") {      
-            this.setState({ input: "-0" + val });
+    if (this.state.percentageKeyPressed === "no") {
+      if (this.state.operationKeyPressed === "yes" || this.state.calculateKeyPressed === "yes") {
+        if (val === ".") {
+          if (this.state.input === "-") {
+            this.setState({ input: "-0." });
           } else {
-            this.setState({ input: this.state.input + val });
+            this.setState({ input: "0." });
           }
-          this.setState({ easterMsgCount: 0 });
-          this.setState({ operationKeyPressed: "no" });
+        } else if (this.state.input === "-") {
+          this.setState({ input: this.state.input + val });   
+        } else {
+          this.setState({ input: val });   
+        }
+        this.setState({ calculateKeyPressed: "no" });
+        this.setState({ operationKeyPressed: "no" });
+      } else {
+        if (this.state.input.length < 15) {
+          if ((this.state.input).includes(".") && val === "."){
+            alert("Only one comma allowed.");
+          } else {
+            if (this.state.input === "0" && val !== ".") {
+              this.setState({ input: val });   
+            } else if (this.state.input === "-" && val === ".") {      
+              this.setState({ input: "-0" + val });
+            } else {
+              this.setState({ input: this.state.input + val });
+            }
+            this.setState({ easterMsgCount: 0 });
+            this.setState({ operationKeyPressed: "no" });
+          }
         }
       }
     }
@@ -55,7 +57,7 @@ class App extends React.Component {
 
   // Delete last sign from input
   delInput = () => {
-    if (this.state.input !== "Infinity") {
+    if (this.state.input !== "Infinity" && this.state.input !== "NaN" && this.state.input !== "" && this.state.percentageKeyPressed === "no") {
       this.setState({input: this.state.input.slice(0, -1)}, () => {
         if (this.state.input === "" || this.state.input === "-" || this.state.input === "-0.") {
           this.setState({input: "0"});
@@ -69,7 +71,7 @@ class App extends React.Component {
     this.setState({
       input: "0",
       allInput: "",
-      operationKeyPressed: "yes",
+      operationKeyPressed: "no",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
       easterMsgCount: 0
@@ -78,32 +80,38 @@ class App extends React.Component {
 
   // Change a sign of input's value
   changeSign = () => {
-    if (this.state.input === "0" || this.state.input === "") {
-      this.setState({ input: "-" });
-    } else if (this.state.input === "-") {
-      this.setState({ input: "0" });
-    } else if (this.state.input !== "Infinity") {
-      this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+    if (this.state.percentageKeyPressed === "no") {
+      if (this.state.input === "0" || this.state.input === "" || this.state.input === "0.") {
+        this.setState({ input: "-" });
+      } else if (this.state.input === "-") {
+        this.setState({ input: "0" });
+      } else if (this.state.input !== "Infinity") {
+        this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+      }
     }
   };
 
   // Add operations to allInput
   mathOperation = (val) => {
-    if (this.state.input !== "Infinity") {
+    if (this.state.input !== "Infinity" && this.state.input !== "NaN" && this.state.input !== "-") {
       if (this.state.operationKeyPressed === "no") {
         if ((this.state.input).includes("e")) {
           alert("Sorry, number too big :(");
         } else {
-          this.setState({ operationKeyPressed: "yes" });
-          this.setState({ calculateKeyPressed: "no" });
-          this.setState({ easterMsgCount: 0 });
-          if (this.state.percentageKeyPressed === "no") {
-            this.setState({ allInput: this.state.allInput + this.state.input + val});
+          if (parseFloat(this.state.input) === 0 && this.state.allInput.slice(-1) === "/") {
+            alert("Do not divide by 0");
           } else {
-            this.setState({ allInput: this.state.allInput + val});
-            this.setState({ percentageKeyPressed: "no" });
+            this.setState({ operationKeyPressed: "yes" });
+            this.setState({ calculateKeyPressed: "no" });
+            this.setState({ easterMsgCount: 0 });
+            if (this.state.percentageKeyPressed === "no") {
+              this.setState({ allInput: this.state.allInput + this.state.input + val});
+            } else {
+              this.setState({ allInput: this.state.allInput + val});
+              this.setState({ percentageKeyPressed: "no" });
+            }
+            this.setState({ input: "" });
           }
-          this.setState({ input: "" });
         }
       }
     }
@@ -111,10 +119,8 @@ class App extends React.Component {
 
   // Calculate percentage
   calcPercentage = () => {
-    if (this.state.percentageKeyPressed === "no") {
-      if (this.state.allInput === "") {
-        this.setState({ input: "0" });
-      } else {
+    if (this.state.percentageKeyPressed === "no" && this.state.input !== "" && this.state.input !== "-" && parseFloat(this.state.input) !== 0) {
+      if (this.state.allInput !== "") {
         var percent = 0;
         if (("*/").includes(this.state.allInput.slice(-1))) {
           percent = parseFloat(this.state.input) / 100;
@@ -136,16 +142,19 @@ class App extends React.Component {
       alert(String.fromCharCode(67,114,101,97,116,101,100,32,98,121,32,66,97,114,116,111,115,122,32,66,105,97,322,97,99,104));
       this.setState({ easterMsgCount: 0 });
     } else {
-      if (this.state.operationKeyPressed === "no") {
-        if (this.state.percentageKeyPressed === "no") {
-          this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
+      if (this.state.operationKeyPressed === "no" && this.state.input !== "-") {
+        if (parseFloat(this.state.input) === 0 && this.state.allInput.slice(-1) === "/") {
+          alert("Do not divide by 0");
         } else {
-          this.setState({ input: (math.round(math.evaluate(this.state.allInput), 10)).toString() });
-          this.setState({ percentageKeyPressed: "no" });
+          if (this.state.percentageKeyPressed === "no") {
+            this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
+          } else {
+            this.setState({ input: (math.round(math.evaluate(this.state.allInput), 10)).toString() });
+            this.setState({ percentageKeyPressed: "no" });
+          }
+          this.setState({ allInput: "" });
+          this.setState({ calculateKeyPressed: "yes" });
         }
-        this.setState({ allInput: "" });
-        this.setState({ calculateKeyPressed: "yes" });
-        this.setState({ percentageKeyPressed: "no" });
       }
     }
   };
