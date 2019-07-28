@@ -14,7 +14,7 @@ class App extends React.Component {
       operationKeyPressed: "yes",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
-      easterMsgCount: 0
+      easterMsgCounter: 0
     };
   }
   
@@ -22,7 +22,13 @@ class App extends React.Component {
   addToInput = val => {
     if (this.state.operationKeyPressed === "yes" || this.state.calculateKeyPressed === "yes") {
       if (val === ".") {
-        this.setState({ input: "0." });
+        if (this.state.input === "-") {
+          this.setState({ input: "-0." });
+        } else {
+          this.setState({ input: "0." });
+        }
+      } else if (this.state.input === "-") {
+        this.setState({ input: this.state.input + val });   
       } else {
         this.setState({ input: val });   
       }
@@ -72,7 +78,7 @@ class App extends React.Component {
 
   // Change a sign of input's value
   changeSign = () => {
-    if (this.state.input === "0") {
+    if (this.state.input === "0" || this.state.input === "") {
       this.setState({ input: "-" });
     } else if (this.state.input === "-") {
       this.setState({ input: "0" });
