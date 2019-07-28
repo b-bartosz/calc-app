@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/calc-app/static/css/main.c3c5b9d9.chunk.css",
-    "main.js": "/calc-app/static/js/main.dcfe9b93.chunk.js",
-    "main.js.map": "/calc-app/static/js/main.dcfe9b93.chunk.js.map",
+    "main.js": "/calc-app/static/js/main.5b1dfa3c.chunk.js",
+    "main.js.map": "/calc-app/static/js/main.5b1dfa3c.chunk.js.map",
     "runtime~main.js": "/calc-app/static/js/runtime~main.8c7d8dec.js",
     "runtime~main.js.map": "/calc-app/static/js/runtime~main.8c7d8dec.js.map",
     "static/js/2.4fc08c32.chunk.js": "/calc-app/static/js/2.4fc08c32.chunk.js",
     "static/js/2.4fc08c32.chunk.js.map": "/calc-app/static/js/2.4fc08c32.chunk.js.map",
     "index.html": "/calc-app/index.html",
-    "precache-manifest.69cc45a6743fb07aa588b0d0f64cbb60.js": "/calc-app/precache-manifest.69cc45a6743fb07aa588b0d0f64cbb60.js",
+    "precache-manifest.cea30c689a89fb7f1004f26ee8b03645.js": "/calc-app/precache-manifest.cea30c689a89fb7f1004f26ee8b03645.js",
     "service-worker.js": "/calc-app/service-worker.js",
     "static/css/main.c3c5b9d9.chunk.css.map": "/calc-app/static/css/main.c3c5b9d9.chunk.css.map",
     "static/media/App.scss": "/calc-app/static/media/bg.cd408c2d.jpg"
