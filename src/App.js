@@ -219,6 +219,9 @@ class App extends React.Component {
       case 67: 
         this.clearAll();
         break;
+      case 80: 
+        this.calcPercentage();
+        break;
       case 83: 
         this.changeSign();
         break;
