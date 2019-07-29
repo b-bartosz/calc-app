@@ -61,11 +61,14 @@ class App extends React.Component {
   delInput = () => {
     if (this.state.input !== "Infinity" && this.state.input !== "NaN" && this.state.input !== "" && this.state.percentageKeyPressed === "no") {
       this.setState({input: this.state.input.slice(0, -1)}, () => {
-        if (this.state.input === "" || this.state.input === "-" || this.state.input === "-0.") {
+        if (this.state.input === "") {
           this.setState({input: "0"});
+        } else if (this.state.input === "-0") {
+          this.setState({input: "-"});
         }
       });
     }
+    this.setState({ easterMsgCounter: 0 });
   };
 
   // Clear all inputs
@@ -90,12 +93,20 @@ class App extends React.Component {
       this.setState({ easterMsgCounter: 0 });
     } else {
       if (this.state.percentageKeyPressed === "no") {
-        if (this.state.input === "0" || this.state.input === "" || this.state.input === "0.") {
+        if (this.state.input === "0" || this.state.input === "") {
           this.setState({ input: "-" });
         } else if (this.state.input === "-") {
           this.setState({ input: "0" });
+        } else if (this.state.input === "0.") {
+          this.setState({ input: "-0." });
+        } else if (this.state.input === "-0.") {
+          this.setState({ input: "0." });
         } else if (this.state.input !== "Infinity") {
-          this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+          if (this.state.input.slice(-1) !== ".") {
+            this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+          } else {
+            this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() + "."});
+          }
         }
       }
     }
@@ -167,6 +178,7 @@ class App extends React.Component {
         }
       }
     }
+    this.setState({ easterMsgCounter: 0 });
   };
 
   // Display current input
