@@ -10,8 +10,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       input: "0",
+      lastInput: "",
       allInput: "",
       operationKeyPressed: "no",
+      lastOperation: "",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
       easterMsgCounter: 0
@@ -47,7 +49,7 @@ class App extends React.Component {
             } else {
               this.setState({ input: this.state.input + val });
             }
-            this.setState({ easterMsgCount: 0 });
+            this.setState({ easterMsgCounter: 0 });
             this.setState({ operationKeyPressed: "no" });
           }
         }
@@ -74,19 +76,25 @@ class App extends React.Component {
       operationKeyPressed: "no",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
-      easterMsgCount: 0
+      easterMsgCounter: 0
     });
   };
 
   // Change a sign of input's value
   changeSign = () => {
-    if (this.state.percentageKeyPressed === "no") {
-      if (this.state.input === "0" || this.state.input === "" || this.state.input === "0.") {
-        this.setState({ input: "-" });
-      } else if (this.state.input === "-") {
-        this.setState({ input: "0" });
-      } else if (this.state.input !== "Infinity") {
-        this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+    this.setState({ easterMsgCounter: this.state.easterMsgCounter + 1 });
+    if (this.state.easterMsgCounter === 9) {
+      alert(String.fromCharCode(67,114,101,97,116,101,100,32,98,121,32,66,97,114,116,111,115,122,32,66,105,97,322,97,99,104));
+      this.setState({ easterMsgCounter: 0 });
+    } else {
+      if (this.state.percentageKeyPressed === "no") {
+        if (this.state.input === "0" || this.state.input === "" || this.state.input === "0.") {
+          this.setState({ input: "-" });
+        } else if (this.state.input === "-") {
+          this.setState({ input: "0" });
+        } else if (this.state.input !== "Infinity") {
+          this.setState({ input: (parseFloat(this.state.input) * (-1)).toString() });
+        }
       }
     }
   };
@@ -102,8 +110,9 @@ class App extends React.Component {
             alert("Do not divide by 0");
           } else {
             this.setState({ operationKeyPressed: "yes" });
+            this.setState({ lastOperation: val });
             this.setState({ calculateKeyPressed: "no" });
-            this.setState({ easterMsgCount: 0 });
+            this.setState({ easterMsgCounter: 0 });
             if (this.state.percentageKeyPressed === "no") {
               this.setState({ allInput: this.state.allInput + this.state.input + val});
             } else {
@@ -137,15 +146,14 @@ class App extends React.Component {
 
   // Calculate the result
   calcResult = () => {
-    this.setState({ easterMsgCount: this.state.easterMsgCount + 1 });
-    if (this.state.easterMsgCount === 9) {
-      alert(String.fromCharCode(67,114,101,97,116,101,100,32,98,121,32,66,97,114,116,111,115,122,32,66,105,97,322,97,99,104));
-      this.setState({ easterMsgCount: 0 });
+    if (this.state.calculateKeyPressed === "yes") {
+      this.setState({ input: (math.round(math.evaluate(this.state.input + this.state.lastOperation + this.state.lastInput), 10)).toString() });
     } else {
       if (this.state.operationKeyPressed === "no" && this.state.input !== "-") {
         if (parseFloat(this.state.input) === 0 && this.state.allInput.slice(-1) === "/") {
           alert("Do not divide by 0");
         } else {
+          this.setState({lastInput: this.state.input});
           if (this.state.percentageKeyPressed === "no") {
             this.setState({ input: (math.round(math.evaluate(this.state.allInput + this.state.input), 10)).toString() });
           } else {
@@ -272,7 +280,7 @@ class App extends React.Component {
       <div className="Calc" onKeyPress={this.handleKeyPress}>
         <div className="Calc-header">
           {/* Drawing calc UI */}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242 2208" className="Calc-UI" shape-rendering ="crispEdges">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242 2208" className="Calc-UI" shapeRendering ="crispEdges">
             <g id="Artboard_1" data-name="Artboard 1">
               <g>
                 <rect className="cls-1" width="1242" height="2208"/>
@@ -345,11 +353,13 @@ class App extends React.Component {
 
 App.propTypes = {
   input: PropTypes.string,
+  lastInput: PropTypes.string,
   allInput: PropTypes.string,
   operationKeyPressed: PropTypes.string,
+  lastOperation: PropTypes.string,
   calculateKeyPressed: PropTypes.string,
   percentageKeyPressed: PropTypes.string,
-  easterMsgCount: PropTypes.number
+  easterMsgCounter: PropTypes.number
 }
 
 export default App;
