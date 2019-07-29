@@ -72,8 +72,10 @@ class App extends React.Component {
   clearAll = () => {
     this.setState({
       input: "0",
+      lastInput: "",
       allInput: "",
       operationKeyPressed: "no",
+      lastOperation: "",
       calculateKeyPressed: "no",
       percentageKeyPressed: "no",
       easterMsgCounter: 0
