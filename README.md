@@ -1,6 +1,4 @@
 # calc-app
-Simple calc in React - SPA.
-
-Supports mouse and keyboard input.
+Simple calculator in React - SPA.
 
 Demo page: https://b-bartosz.github.io/calc-app/
